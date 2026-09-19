@@ -68,4 +68,23 @@ public with sharing class AccountService {
             update toUpdate;
         }
     }
+    public static void checkAccountduplicate(List<Account> accountsToCheck) {
+        if (accountsToCheck == null || accountsToCheck.isEmpty()) {
+            return;
+        }
+
+        Set<String> accountNames = new Set<String>();
+        for (Account a : accountsToCheck) {
+            if (a == null) {
+                throw new IllegalArgumentException('Null Account element found in input list');
+            }
+            if (a.Id == null) {
+                throw new IllegalArgumentException('Account with null Id found in input list');
+            }
+            if (accountNames.contains(a.Name)) {
+                throw new IllegalArgumentException('Duplicate Account Name found: ' + a.Name);
+            }
+            accountNames.add(a.Name);
+        }
+    }
 }
